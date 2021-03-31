@@ -3,7 +3,7 @@ layout: single
 title:  "How to classify ship images with Deep Learning"
 date:   2021-03-30
 categories: DeepLearning
-tags: TensorFlow CNN
+tags: TensorFlow CNN Python
 toc: true
 toc_label: "Table of Contents"
 toc_icon: "clone"
