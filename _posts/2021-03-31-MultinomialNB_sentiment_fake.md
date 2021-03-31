@@ -1,6 +1,6 @@
 ---
 layout: single
-title:  "Multinomial Naive Bayes for Sentiment and fake review detection"
+title:  "Multinomial Naive Bayes for Sentiment Analysis and Fake Review Detection"
 date:   2021-03-30
 categories: TextMining
 tags: Python MultinomialNB SentimentAnalysis FakeReviewDetection CrossValidation
@@ -9,37 +9,126 @@ toc_label: "Table of Contents"
 toc_icon: "clone"
 ---
 
-### Sentiment Detection
+
+We often see text from the internet automatically classified as positive, negative and in websites like Amazon, they automatically track fake reviews and remove them proactively to prevent bias for their text mining model. Althought they use complex and huge datasets for training process, the goal in this one is to analyse text data and interpret the models, find patterns in determining wrongly predicted text.
+
+The dataset is provided by Prof. Bei Yu at Syracuse University. It is about a fake restaurant review data of true and fake reviews. Some were positive, and some were negative. It is completely fictional. It has columns 'review', 'lie', and 'sentiment' which are straight forward to understand. With this data, the goal is to create a cross validated Multinomial Naive Bayes Model trained on reviews and sentiment for **Sentiment Analysis** and reviews, lie for **Fake Review Detection**
+
+## Sentiment Analysis
+### First step is to import required libraries
+
 
 ```python
+# Importing libaries
+
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
-import numpy as np
 import pandas as pd
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import cross_val_predict
 
-train_data = pd.read_csv('deception_data_converted_final.tsv', delimiter='\t')
+train_data = pd.read_csv('deception_data_converted_final.tsv',
+                         delimiter='\t')
+train_data.head()
+```
 
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>lie</th>
+      <th>sentiment</th>
+      <th>review</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>f</td>
+      <td>n</td>
+      <td>'Mike\'s Pizza High Point, NY Service was very...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>f</td>
+      <td>n</td>
+      <td>'i really like this buffet restaurant in Marsh...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>f</td>
+      <td>n</td>
+      <td>'After I went shopping with some of my friend,...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>f</td>
+      <td>n</td>
+      <td>'Olive Oil Garden was very disappointing. I ex...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>f</td>
+      <td>n</td>
+      <td>'The Seven Heaven restaurant was never known f...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
 # Vectorizer options
 
 unigram_bool_vectorizer = CountVectorizer(
-    encoding='latin-1', binary=True, min_df=5, stop_words='english')
+    encoding='latin-1',
+    binary=True,
+    min_df=5,
+    stop_words='english')
 
 unigram_count_vectorizer = CountVectorizer(
-    encoding='latin-1', binary=False, min_df=5, stop_words='english')
+    encoding='latin-1',
+    binary=False,
+    min_df=5,
+    stop_words='english')
 
 gram12_count_vectorizer = CountVectorizer(
-    encoding='latin-1', ngram_range=(1, 2), min_df=5, stop_words='english')
+    encoding='latin-1',
+    ngram_range=(1, 2),
+    min_df=5,
+    stop_words='english')
 
 unigram_tfidf_vectorizer = TfidfVectorizer(
-    encoding='latin-1', use_idf=True, min_df=5, stop_words='english')
+    encoding='latin-1',
+    use_idf=True,
+    min_df=5,
+    stop_words='english')
 
+# Defining model for taking vectorizer options and print the cross validation metrics
 def print_CV_MNB_results(train_data, vectorizers_list, train_column, test_column, k_for_CV, labels):
-
+    """This function prints the confusion matrix, accuracy and the classification report of
+    cross validation MultinomialNB model"""
     global X
     X = train_data[train_column].values
     global y
@@ -68,11 +157,13 @@ def print_CV_MNB_results(train_data, vectorizers_list, train_column, test_column
 
 
 ```python
+# creating a list of vectorizer types that we want to test
 vectorizer_list = [unigram_bool_vectorizer,
                    unigram_count_vectorizer,
                    gram12_count_vectorizer,
                    unigram_tfidf_vectorizer]
 
+# Showing results for each vectorizer and model metrics
 print_CV_MNB_results(train_data,
                      vectorizer_list,
                      'review',
@@ -160,13 +251,20 @@ print_CV_MNB_results(train_data,
     =====================================================================================
 
 
-### Fake Review Detection
+### Model Interpretation (Sentiment Analysis)
+
+
+## Fake Review Detection
+
 
 ```python
+# creating a list of vectorizer types that we want to test
 vectorizer_list = [unigram_bool_vectorizer,
                    unigram_count_vectorizer,
                    gram12_count_vectorizer,
                    unigram_tfidf_vectorizer]
+
+# Showing results for each vectorizer and model metrics
 
 print_CV_MNB_results(train_data,
                      vectorizer_list,
@@ -254,6 +352,8 @@ print_CV_MNB_results(train_data,
 
     =====================================================================================
 
+
+### Model Interpretation (Fake Review Detection)
 
 
 ```python

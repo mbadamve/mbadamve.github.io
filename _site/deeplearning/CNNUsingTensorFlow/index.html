@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>How to classify ship images with Deep Learning -</title>
-<meta name="description" content="CNN - Deep Learning">
+<meta name="description" content="The goal of this project is to create a Deep Learning model using Convolutional Neural Networks. The dataset consists of images of 5 types of ships which are labeled {‘Cargo’: 1, ‘Military’: 2, ‘Carrier’: 3, ‘Cruise’: 4, ‘Tankers’: 5}. The Convolutional Neural Network (CNN) is trained with the images of all these types of ships using a 60% of the data and validated simulataneously against 20% of the data and finally test the trained model with the remaining 20% of the data. The model is adjusted with various hyperparameters like using different activation functions, loss functions, changing the epochs, using different neural network initializing methods, changing network size and number of layers and finally obtaining the best accurate version of the CNN for the data. The programming is done in TensorFlow API by Google and the ‘loss and accuracy’ plot indicates how good or bad the network is trained aganist the data.">
 
 
   <meta name="author" content="Mahesh Badam">
@@ -26,7 +26,7 @@
 <meta property="og:url" content="http://localhost:4000/deeplearning/CNNUsingTensorFlow/">
 
 
-  <meta property="og:description" content="CNN - Deep Learning">
+  <meta property="og:description" content="The goal of this project is to create a Deep Learning model using Convolutional Neural Networks. The dataset consists of images of 5 types of ships which are labeled {‘Cargo’: 1, ‘Military’: 2, ‘Carrier’: 3, ‘Cruise’: 4, ‘Tankers’: 5}. The Convolutional Neural Network (CNN) is trained with the images of all these types of ships using a 60% of the data and validated simulataneously against 20% of the data and finally test the trained model with the remaining 20% of the data. The model is adjusted with various hyperparameters like using different activation functions, loss functions, changing the epochs, using different neural network initializing methods, changing network size and number of layers and finally obtaining the best accurate version of the CNN for the data. The programming is done in TensorFlow API by Google and the ‘loss and accuracy’ plot indicates how good or bad the network is trained aganist the data.">
 
 
 
@@ -292,7 +292,7 @@
         
         
         <meta itemprop="description"
-            content="CNN - Deep Learning">
+            content="The goal of this project is to create a Deep Learning model using Convolutional Neural Networks. The dataset consists of images of 5 types of ships which are labeled {‘Cargo’: 1, ‘Military’: 2, ‘Carrier’: 3, ‘Cruise’: 4, ‘Tankers’: 5}. The Convolutional Neural Network (CNN) is trained with the images of all these types of ships using a 60% of the data and validated simulataneously against 20% of the data and finally test the trained model with the remaining 20% of the data. The model is adjusted with various hyperparameters like using different activation functions, loss functions, changing the epochs, using different neural network initializing methods, changing network size and number of layers and finally obtaining the best accurate version of the CNN for the data. The programming is done in TensorFlow API by Google and the ‘loss and accuracy’ plot indicates how good or bad the network is trained aganist the data.">
         
         <meta itemprop="datePublished" content="2021-03-30T00:00:00-04:00">
         
@@ -333,14 +333,12 @@
                         <header>
                             <h4 class="nav__title"><i class="fas fa-clone"></i> Table of Contents</h4>
                         </header>
-                        <ul class="toc__menu"><li><a href="#cnn---deep-learning">CNN - Deep Learning</a><ul><li><a href="#problem-statement">Problem Statement</a></li><li><a href="#data-introduction">Data Introduction</a></li><li><a href="#solution-approach">Solution Approach</a></li><li><a href="#dependencies">Dependencies</a></li></ul></li><li><a href="#part-a---deep-learning-model---convolutional-neural-network-cnn">Part A - Deep Learning model - Convolutional Neural Network (CNN)</a><ul><li><a href="#lets-import-libraries">Let’s import libraries</a></li><li><a href="#loading-the-data">Loading the Data</a></li><li><a href="#splitting-the-data-into-training-and-testing-dataset">Splitting the data into training and testing dataset.</a></li><li><a href="#data-preprocessing">Data Preprocessing</a></li><li><a href="#the-images-data-is-then-split-into-training-validation-and-testing-sets">The images data is then split into training, validation and testing sets</a></li><li><a href="#defining-four-functions">Defining four functions</a></li><li><a href="#the-cnn-model-1">The CNN Model 1:</a></li></ul></li><li><a href="#part-b-changing-the-activation-function">Part B: Changing the activation function</a><ul><li><a href="#another-activation-function">Another Activation function</a></li></ul></li><li><a href="#part-c-changing-loss-function">Part C: Changing Loss function</a></li><li><a href="#changing-epochs">Changing Epochs</a></li><li><a href="#changing-gradient-estimation">Changing Gradient Estimation</a></li><li><a href="#changing-network-architecture">Changing Network Architecture</a></li><li><a href="#changing-network-initialization">Changing Network Initialization</a><ul><li><a href="#conclusion">Conclusion</a></li></ul></li><li><a href="#author">Author</a></li><li><a href="#citation">Citation</a></li><li><a href="#licensing">Licensing</a></li></ul>
+                        <ul class="toc__menu"><li><a href="#problem-statement">Problem Statement</a></li><li><a href="#data-introduction">Data Introduction</a></li><li><a href="#solution-approach">Solution Approach</a></li><li><a href="#dependencies">Dependencies</a></li><li><a href="#lets-import-libraries">Let’s import libraries</a></li><li><a href="#loading-the-data">Loading the Data</a></li><li><a href="#splitting-the-data-into-training-and-testing-dataset">Splitting the data into training and testing dataset.</a></li><li><a href="#data-preprocessing">Data Preprocessing</a></li><li><a href="#the-images-data-is-then-split-into-training-validation-and-testing-sets">The images data is then split into training, validation and testing sets</a></li><li><a href="#defining-four-functions">Defining four functions</a></li><li><a href="#the-cnn-model-1">The CNN Model 1:</a></li><li><a href="#another-activation-function">Another Activation function</a></li><li><a href="#conclusion">Conclusion</a></li></ul>
 
                     </nav>
                 </aside>
                 
-                <h2 id="cnn---deep-learning">CNN - Deep Learning</h2>
-
-<p>The goal of this project is to create a Deep Learning model using Convolutional Neural Networks. The dataset consists of images of 5 types of ships which are labeled {‘Cargo’: 1, ‘Military’: 2, ‘Carrier’: 3, ‘Cruise’: 4, ‘Tankers’: 5}. The Convolutional Neural Network (CNN) is trained with the images of all these types of ships using a 60% of the data and validated simulataneously against 20% of the data and finally test the trained model with the remaining 20% of the data. The model is adjusted with various hyperparameters like using different activation functions, loss functions, changing the epochs, using different neural network initializing methods, changing network size and number of layers and finally obtaining the best accurate version of the CNN for the data. The programming is done in TensorFlow API by Google and the ‘loss and accuracy’ plot indicates how good or bad the network is trained aganist the data.</p>
+                <p>The goal of this project is to create a Deep Learning model using Convolutional Neural Networks. The dataset consists of images of 5 types of ships which are labeled {‘Cargo’: 1, ‘Military’: 2, ‘Carrier’: 3, ‘Cruise’: 4, ‘Tankers’: 5}. The Convolutional Neural Network (CNN) is trained with the images of all these types of ships using a 60% of the data and validated simulataneously against 20% of the data and finally test the trained model with the remaining 20% of the data. The model is adjusted with various hyperparameters like using different activation functions, loss functions, changing the epochs, using different neural network initializing methods, changing network size and number of layers and finally obtaining the best accurate version of the CNN for the data. The programming is done in TensorFlow API by Google and the ‘loss and accuracy’ plot indicates how good or bad the network is trained aganist the data.</p>
 
 <h3 id="problem-statement">Problem Statement</h3>
 
@@ -1997,11 +1995,10 @@ SOFTWARE.
             
   <nav class="pagination">
     
-      <a href="/update/welcome-to-jekyll/" class="pagination--pager" title="Welcome to Jekyll!
-">Previous</a>
+      <a href="#" class="pagination--pager disabled">Previous</a>
     
     
-      <a href="/textmining/MultinomialNB_sentiment_fake/" class="pagination--pager" title="Multinomial Naive Bayes for Sentiment and fake review detection
+      <a href="/textmining/MultinomialNB_sentiment_fake/" class="pagination--pager" title="Multinomial Naive Bayes for Sentiment Analysis and Fake Review Detection
 ">Next</a>
     
   </nav>
@@ -2026,7 +2023,7 @@ SOFTWARE.
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/textmining/MultinomialNB_sentiment_fake/" rel="permalink">Multinomial Naive Bayes for Sentiment and fake review detection
+        <a href="/textmining/MultinomialNB_sentiment_fake/" rel="permalink">Multinomial Naive Bayes for Sentiment Analysis and Fake Review Detection
 </a>
       
     </h2>
@@ -2044,94 +2041,14 @@ SOFTWARE.
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          3 minute read
+          4 minute read
         
       </span>
     
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">Sentiment Detection
-
-</p>
-  </article>
-</div>
-
-            
-            
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/update/welcome-to-jekyll/" rel="permalink">Welcome to Jekyll!
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different wa...</p>
-  </article>
-</div>
-
-            
-            
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/jekyll/2021/03/29" rel="permalink">Welcome to Jekyll!
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different wa...</p>
+    <p class="archive__item-excerpt" itemprop="description">We often see text from the internet automatically classified as positive, negative and in websites like Amazon, they automatically track fake reviews and rem...</p>
   </article>
 </div>
 

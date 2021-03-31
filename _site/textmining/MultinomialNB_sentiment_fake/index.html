@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Multinomial Naive Bayes for Sentiment and fake review detection -</title>
-<meta name="description" content="Sentiment Detection">
+<!-- begin _includes/seo.html --><title>Multinomial Naive Bayes for Sentiment Analysis and Fake Review Detection -</title>
+<meta name="description" content="We often see text from the internet automatically classified as positive, negative and in websites like Amazon, they automatically track fake reviews and remove them proactively to prevent bias for their text mining model. Althought they use complex and huge datasets for training process, the goal in this one is to analyse text data and interpret the models, find patterns in determining wrongly predicted text.">
 
 
   <meta name="author" content="Mahesh Badam">
@@ -22,11 +22,11 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
-<meta property="og:title" content="Multinomial Naive Bayes for Sentiment and fake review detection">
+<meta property="og:title" content="Multinomial Naive Bayes for Sentiment Analysis and Fake Review Detection">
 <meta property="og:url" content="http://localhost:4000/textmining/MultinomialNB_sentiment_fake/">
 
 
-  <meta property="og:description" content="Sentiment Detection">
+  <meta property="og:description" content="We often see text from the internet automatically classified as positive, negative and in websites like Amazon, they automatically track fake reviews and remove them proactively to prevent bias for their text mining model. Althought they use complex and huge datasets for training process, the goal in this one is to analyse text data and interpret the models, find patterns in determining wrongly predicted text.">
 
 
 
@@ -288,11 +288,11 @@
 
     <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
         
-        <meta itemprop="headline" content="Multinomial Naive Bayes for Sentiment and fake review detection">
+        <meta itemprop="headline" content="Multinomial Naive Bayes for Sentiment Analysis and Fake Review Detection">
         
         
         <meta itemprop="description"
-            content="Sentiment Detection">
+            content="We often see text from the internet automatically classified as positive, negative and in websites like Amazon, they automatically track fake reviews and remove them proactively to prevent bias for their text mining model. Althought they use complex and huge datasets for training process, the goal in this one is to analyse text data and interpret the models, find patterns in determining wrongly predicted text.">
         
         <meta itemprop="datePublished" content="2021-03-30T00:00:00-04:00">
         
@@ -300,7 +300,7 @@
         <div class="page__inner-wrap">
             
             <header>
-                <h1 id="page-title" class="page__title" itemprop="headline">Multinomial Naive Bayes for Sentiment and fake review detection
+                <h1 id="page-title" class="page__title" itemprop="headline">Multinomial Naive Bayes for Sentiment Analysis and Fake Review Detection
 </h1>
                 
 
@@ -316,7 +316,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          4 minute read
         
       </span>
     
@@ -333,41 +333,121 @@
                         <header>
                             <h4 class="nav__title"><i class="fas fa-clone"></i> Table of Contents</h4>
                         </header>
-                        <ul class="toc__menu"><li><a href="#sentiment-detection">Sentiment Detection</a></li><li><a href="#fake-review-detection">Fake Review Detection</a></li></ul>
+                        <ul class="toc__menu"><li><a href="#sentiment-analysis">Sentiment Analysis</a><ul><li><a href="#first-step-is-to-import-required-libraries">First step is to import required libraries</a></li><li><a href="#model-interpretation-sentiment-analysis">Model Interpretation (Sentiment Analysis)</a></li></ul></li><li><a href="#fake-review-detection">Fake Review Detection</a><ul><li><a href="#model-interpretation-fake-review-detection">Model Interpretation (Fake Review Detection)</a></li></ul></li></ul>
 
                     </nav>
                 </aside>
                 
-                <h3 id="sentiment-detection">Sentiment Detection</h3>
+                <p>We often see text from the internet automatically classified as positive, negative and in websites like Amazon, they automatically track fake reviews and remove them proactively to prevent bias for their text mining model. Althought they use complex and huge datasets for training process, the goal in this one is to analyse text data and interpret the models, find patterns in determining wrongly predicted text.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<p>The dataset is provided by Prof. Bei Yu at Syracuse University. It is about a fake restaurant review data of true and fake reviews. Some were positive, and some were negative. It is completely fictional. It has columns ‘review’, ‘lie’, and ‘sentiment’ which are straight forward to understand. With this data, the goal is to create a cross validated Multinomial Naive Bayes Model trained on reviews and sentiment for <strong>Sentiment Analysis</strong> and reviews, lie for <strong>Fake Review Detection</strong></p>
+
+<h2 id="sentiment-analysis">Sentiment Analysis</h2>
+<h3 id="first-step-is-to-import-required-libraries">First step is to import required libraries</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Importing libaries
+</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
 <span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
 <span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_predict</span>
 
-<span class="n">train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'deception_data_converted_final.tsv'</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">'</span><span class="se">\t</span><span class="s">'</span><span class="p">)</span>
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'deception_data_converted_final.tsv'</span><span class="p">,</span>
+                         <span class="n">delimiter</span><span class="o">=</span><span class="s">'</span><span class="se">\t</span><span class="s">'</span><span class="p">)</span>
+<span class="n">train_data</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
 
-<span class="c1"># Vectorizer options
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>lie</th>
+      <th>sentiment</th>
+      <th>review</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>f</td>
+      <td>n</td>
+      <td>'Mike\'s Pizza High Point, NY Service was very...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>f</td>
+      <td>n</td>
+      <td>'i really like this buffet restaurant in Marsh...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>f</td>
+      <td>n</td>
+      <td>'After I went shopping with some of my friend,...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>f</td>
+      <td>n</td>
+      <td>'Olive Oil Garden was very disappointing. I ex...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>f</td>
+      <td>n</td>
+      <td>'The Seven Heaven restaurant was never known f...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Vectorizer options
 </span>
 <span class="n">unigram_bool_vectorizer</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span>
-    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span>
+    <span class="n">binary</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
 
 <span class="n">unigram_count_vectorizer</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span>
-    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span>
+    <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
 
 <span class="n">gram12_count_vectorizer</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span>
-    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span> <span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span>
+    <span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
 
 <span class="n">unigram_tfidf_vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span>
-    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span> <span class="n">use_idf</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span>
+    <span class="n">use_idf</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">print_CV_MNB_results</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">vectorizers_list</span><span class="p">,</span> <span class="n">train_column</span><span class="p">,</span> <span class="n">test_column</span><span class="p">,</span> <span class="n">k_for_CV</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
-
+<span class="c1"># Defining model for taking vectorizer options and print the cross validation metrics
+</span><span class="k">def</span> <span class="nf">print_CV_MNB_results</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">vectorizers_list</span><span class="p">,</span> <span class="n">train_column</span><span class="p">,</span> <span class="n">test_column</span><span class="p">,</span> <span class="n">k_for_CV</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="s">"""This function prints the confusion matrix, accuracy and the classification report of
+    cross validation MultinomialNB model"""</span>
     <span class="k">global</span> <span class="n">X</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="n">train_column</span><span class="p">].</span><span class="n">values</span>
     <span class="k">global</span> <span class="n">y</span>
@@ -394,12 +474,14 @@
         <span class="k">print</span><span class="p">(</span><span class="s">'====================================================================================='</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vectorizer_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">unigram_bool_vectorizer</span><span class="p">,</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># creating a list of vectorizer types that we want to test
+</span><span class="n">vectorizer_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">unigram_bool_vectorizer</span><span class="p">,</span>
                    <span class="n">unigram_count_vectorizer</span><span class="p">,</span>
                    <span class="n">gram12_count_vectorizer</span><span class="p">,</span>
                    <span class="n">unigram_tfidf_vectorizer</span><span class="p">]</span>
 
-<span class="n">print_CV_MNB_results</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span>
+<span class="c1"># Showing results for each vectorizer and model metrics
+</span><span class="n">print_CV_MNB_results</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span>
                      <span class="n">vectorizer_list</span><span class="p">,</span>
                      <span class="s">'review'</span><span class="p">,</span>
                      <span class="s">'sentiment'</span><span class="p">,</span>
@@ -486,13 +568,18 @@ weighted avg       0.81      0.79      0.79        92
 =====================================================================================
 </code></pre></div></div>
 
-<h3 id="fake-review-detection">Fake Review Detection</h3>
+<h3 id="model-interpretation-sentiment-analysis">Model Interpretation (Sentiment Analysis)</h3>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vectorizer_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">unigram_bool_vectorizer</span><span class="p">,</span>
+<h2 id="fake-review-detection">Fake Review Detection</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># creating a list of vectorizer types that we want to test
+</span><span class="n">vectorizer_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">unigram_bool_vectorizer</span><span class="p">,</span>
                    <span class="n">unigram_count_vectorizer</span><span class="p">,</span>
                    <span class="n">gram12_count_vectorizer</span><span class="p">,</span>
                    <span class="n">unigram_tfidf_vectorizer</span><span class="p">]</span>
 
+<span class="c1"># Showing results for each vectorizer and model metrics
+</span>
 <span class="n">print_CV_MNB_results</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span>
                      <span class="n">vectorizer_list</span><span class="p">,</span>
                      <span class="s">'review'</span><span class="p">,</span>
@@ -580,6 +667,8 @@ weighted avg       0.57      0.57      0.57        92
 =====================================================================================
 </code></pre></div></div>
 
+<h3 id="model-interpretation-fake-review-detection">Model Interpretation (Fake Review Detection)</h3>
+
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 </code></pre></div></div>
 
@@ -638,7 +727,7 @@ weighted avg       0.57      0.57      0.57        92
             <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?text=Multinomial+Naive+Bayes+for+Sentiment+and+fake+review+detection%20http%3A%2F%2Flocalhost%3A4000%2Ftextmining%2FMultinomialNB_sentiment_fake%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Multinomial+Naive+Bayes+for+Sentiment+Analysis+and+Fake+Review+Detection%20http%3A%2F%2Flocalhost%3A4000%2Ftextmining%2FMultinomialNB_sentiment_fake%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Ftextmining%2FMultinomialNB_sentiment_fake%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
@@ -702,87 +791,7 @@ weighted avg       0.57      0.57      0.57        92
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">CNN - Deep Learning
-
-</p>
-  </article>
-</div>
-
-            
-            
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/update/welcome-to-jekyll/" rel="permalink">Welcome to Jekyll!
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different wa...</p>
-  </article>
-</div>
-
-            
-            
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/jekyll/2021/03/29" rel="permalink">Welcome to Jekyll!
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different wa...</p>
+    <p class="archive__item-excerpt" itemprop="description">The goal of this project is to create a Deep Learning model using Convolutional Neural Networks. The dataset consists of images of 5 types of ships which are...</p>
   </article>
 </div>
 
