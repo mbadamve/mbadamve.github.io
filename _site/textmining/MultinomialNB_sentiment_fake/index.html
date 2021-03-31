@@ -1,0 +1,848 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.22.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Multinomial Naive Bayes for Sentiment and fake review detection -</title>
+<meta name="description" content="Sentiment Detection">
+
+
+  <meta name="author" content="Mahesh Badam">
+  
+  <meta property="article:author" content="Mahesh Badam">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="">
+<meta property="og:title" content="Multinomial Naive Bayes for Sentiment and fake review detection">
+<meta property="og:url" content="http://localhost:4000/textmining/MultinomialNB_sentiment_fake/">
+
+
+  <meta property="og:description" content="Sentiment Detection">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-03-30T00:00:00-04:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/textmining/MultinomialNB_sentiment_fake/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Mahesh Badam",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title=" Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/site-logo.png" alt=""></a>
+        
+        <a class="site-title" href="/">
+          
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/year-archive/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/resume/">Resume</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+    
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/My-Pic.jpg" alt="Mahesh Badam" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Mahesh Badam</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>I’m a graduate student at Syracuse University majoring in Applied Data Science</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Syracuse, NY, USA</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:maheshbadam945@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/mbadamve" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://linkedin.com/in/mahesh-badam" rel="nofollow noopener noreferrer"><i class="fab fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+        
+        <meta itemprop="headline" content="Multinomial Naive Bayes for Sentiment and fake review detection">
+        
+        
+        <meta itemprop="description"
+            content="Sentiment Detection">
+        
+        <meta itemprop="datePublished" content="2021-03-30T00:00:00-04:00">
+        
+
+        <div class="page__inner-wrap">
+            
+            <header>
+                <h1 id="page-title" class="page__title" itemprop="headline">Multinomial Naive Bayes for Sentiment and fake review detection
+</h1>
+                
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+            </header>
+            
+
+            <section class="page__content" itemprop="text">
+                
+                <aside class="sidebar__right ">
+                    <nav class="toc">
+                        <header>
+                            <h4 class="nav__title"><i class="fas fa-clone"></i> Table of Contents</h4>
+                        </header>
+                        <ul class="toc__menu"><li><a href="#sentiment-detection">Sentiment Detection</a></li><li><a href="#fake-review-detection">Fake Review Detection</a></li></ul>
+
+                    </nav>
+                </aside>
+                
+                <h3 id="sentiment-detection">Sentiment Detection</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_predict</span>
+
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'deception_data_converted_final.tsv'</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">'</span><span class="se">\t</span><span class="s">'</span><span class="p">)</span>
+
+<span class="c1"># Vectorizer options
+</span>
+<span class="n">unigram_bool_vectorizer</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
+
+<span class="n">unigram_count_vectorizer</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
+
+<span class="n">gram12_count_vectorizer</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span> <span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
+
+<span class="n">unigram_tfidf_vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s">'latin-1'</span><span class="p">,</span> <span class="n">use_idf</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s">'english'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">print_CV_MNB_results</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">vectorizers_list</span><span class="p">,</span> <span class="n">train_column</span><span class="p">,</span> <span class="n">test_column</span><span class="p">,</span> <span class="n">k_for_CV</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+
+    <span class="k">global</span> <span class="n">X</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="n">train_column</span><span class="p">].</span><span class="n">values</span>
+    <span class="k">global</span> <span class="n">y</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="n">test_column</span><span class="p">].</span><span class="n">values</span>
+
+    <span class="n">nb_clf</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">vectorizers_list</span><span class="p">:</span>
+
+        <span class="n">X_train_data_vec</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">cv_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span>
+            <span class="n">estimator</span><span class="o">=</span><span class="n">nb_clf</span><span class="p">,</span>
+            <span class="n">X</span><span class="o">=</span><span class="n">X_train_data_vec</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">cv</span><span class="o">=</span><span class="n">k_for_CV</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'=== Results using </span><span class="si">{</span><span class="n">vec</span><span class="si">}</span><span class="s"> as vectorizer ===</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'=== Confusion Matrix ==='</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">cv_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'========================'</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Accuracy: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">cv_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'========================'</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Classification Report'</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">cv_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="n">labels</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'====================================================================================='</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vectorizer_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">unigram_bool_vectorizer</span><span class="p">,</span>
+                   <span class="n">unigram_count_vectorizer</span><span class="p">,</span>
+                   <span class="n">gram12_count_vectorizer</span><span class="p">,</span>
+                   <span class="n">unigram_tfidf_vectorizer</span><span class="p">]</span>
+
+<span class="n">print_CV_MNB_results</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span>
+                     <span class="n">vectorizer_list</span><span class="p">,</span>
+                     <span class="s">'review'</span><span class="p">,</span>
+                     <span class="s">'sentiment'</span><span class="p">,</span>
+                     <span class="mi">5</span><span class="p">,</span>
+                     <span class="p">[</span><span class="s">'n'</span><span class="p">,</span> <span class="s">'p'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=== Results using CountVectorizer(binary=True, encoding='latin-1', min_df=5, stop_words='english') as vectorizer ===
+
+=== Confusion Matrix ===
+[[32  6]
+ [14 40]]
+========================
+Accuracy: 0.78
+========================
+Classification Report
+              precision    recall  f1-score   support
+
+           n       0.70      0.84      0.76        38
+           p       0.87      0.74      0.80        54
+
+    accuracy                           0.78        92
+   macro avg       0.78      0.79      0.78        92
+weighted avg       0.80      0.78      0.78        92
+
+=====================================================================================
+=== Results using CountVectorizer(encoding='latin-1', min_df=5, stop_words='english') as vectorizer ===
+
+=== Confusion Matrix ===
+[[33  5]
+ [13 41]]
+========================
+Accuracy: 0.8
+========================
+Classification Report
+              precision    recall  f1-score   support
+
+           n       0.72      0.87      0.79        38
+           p       0.89      0.76      0.82        54
+
+    accuracy                           0.80        92
+   macro avg       0.80      0.81      0.80        92
+weighted avg       0.82      0.80      0.81        92
+
+=====================================================================================
+=== Results using CountVectorizer(encoding='latin-1', min_df=5, ngram_range=(1, 2),
+                stop_words='english') as vectorizer ===
+
+=== Confusion Matrix ===
+[[33  5]
+ [13 41]]
+========================
+Accuracy: 0.8
+========================
+Classification Report
+              precision    recall  f1-score   support
+
+           n       0.72      0.87      0.79        38
+           p       0.89      0.76      0.82        54
+
+    accuracy                           0.80        92
+   macro avg       0.80      0.81      0.80        92
+weighted avg       0.82      0.80      0.81        92
+
+=====================================================================================
+=== Results using TfidfVectorizer(encoding='latin-1', min_df=5, stop_words='english') as vectorizer ===
+
+=== Confusion Matrix ===
+[[33  6]
+ [13 40]]
+========================
+Accuracy: 0.79
+========================
+Classification Report
+              precision    recall  f1-score   support
+
+           n       0.72      0.85      0.78        39
+           p       0.87      0.75      0.81        53
+
+    accuracy                           0.79        92
+   macro avg       0.79      0.80      0.79        92
+weighted avg       0.81      0.79      0.79        92
+
+=====================================================================================
+</code></pre></div></div>
+
+<h3 id="fake-review-detection">Fake Review Detection</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vectorizer_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">unigram_bool_vectorizer</span><span class="p">,</span>
+                   <span class="n">unigram_count_vectorizer</span><span class="p">,</span>
+                   <span class="n">gram12_count_vectorizer</span><span class="p">,</span>
+                   <span class="n">unigram_tfidf_vectorizer</span><span class="p">]</span>
+
+<span class="n">print_CV_MNB_results</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span>
+                     <span class="n">vectorizer_list</span><span class="p">,</span>
+                     <span class="s">'review'</span><span class="p">,</span>
+                     <span class="s">'lie'</span><span class="p">,</span>
+                     <span class="mi">5</span><span class="p">,</span>
+                     <span class="p">[</span><span class="s">'f'</span><span class="p">,</span> <span class="s">'t'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=== Results using CountVectorizer(binary=True, encoding='latin-1', min_df=5, stop_words='english') as vectorizer ===
+
+=== Confusion Matrix ===
+[[27 19]
+ [19 27]]
+========================
+Accuracy: 0.59
+========================
+Classification Report
+              precision    recall  f1-score   support
+
+           f       0.59      0.59      0.59        46
+           t       0.59      0.59      0.59        46
+
+    accuracy                           0.59        92
+   macro avg       0.59      0.59      0.59        92
+weighted avg       0.59      0.59      0.59        92
+
+=====================================================================================
+=== Results using CountVectorizer(encoding='latin-1', min_df=5, stop_words='english') as vectorizer ===
+
+=== Confusion Matrix ===
+[[26 19]
+ [20 27]]
+========================
+Accuracy: 0.58
+========================
+Classification Report
+              precision    recall  f1-score   support
+
+           f       0.57      0.58      0.57        45
+           t       0.59      0.57      0.58        47
+
+    accuracy                           0.58        92
+   macro avg       0.58      0.58      0.58        92
+weighted avg       0.58      0.58      0.58        92
+
+=====================================================================================
+=== Results using CountVectorizer(encoding='latin-1', min_df=5, ngram_range=(1, 2),
+                stop_words='english') as vectorizer ===
+
+=== Confusion Matrix ===
+[[27 17]
+ [19 29]]
+========================
+Accuracy: 0.61
+========================
+Classification Report
+              precision    recall  f1-score   support
+
+           f       0.59      0.61      0.60        44
+           t       0.63      0.60      0.62        48
+
+    accuracy                           0.61        92
+   macro avg       0.61      0.61      0.61        92
+weighted avg       0.61      0.61      0.61        92
+
+=====================================================================================
+=== Results using TfidfVectorizer(encoding='latin-1', min_df=5, stop_words='english') as vectorizer ===
+
+=== Confusion Matrix ===
+[[26 20]
+ [20 26]]
+========================
+Accuracy: 0.57
+========================
+Classification Report
+              precision    recall  f1-score   support
+
+           f       0.57      0.57      0.57        46
+           t       0.57      0.57      0.57        46
+
+    accuracy                           0.57        92
+   macro avg       0.57      0.57      0.57        92
+weighted avg       0.57      0.57      0.57        92
+
+=====================================================================================
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+</code></pre></div></div>
+
+                
+            </section>
+
+            <footer class="page__meta">
+                
+                
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#crossvalidation" class="page__taxonomy-item" rel="tag">CrossValidation</a><span class="sep">, </span>
+    
+      <a href="/tags/#fakereviewdetection" class="page__taxonomy-item" rel="tag">FakeReviewDetection</a><span class="sep">, </span>
+    
+      <a href="/tags/#multinomialnb" class="page__taxonomy-item" rel="tag">MultinomialNB</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/tags/#sentimentanalysis" class="page__taxonomy-item" rel="tag">SentimentAnalysis</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#textmining" class="page__taxonomy-item" rel="tag">TextMining</a>
+    
+    </span>
+  </p>
+
+
+                
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-03-30T00:00:00-04:00">March 30, 2021</time></p>
+
+
+            </footer>
+
+            <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Multinomial+Naive+Bayes+for+Sentiment+and+fake+review+detection%20http%3A%2F%2Flocalhost%3A4000%2Ftextmining%2FMultinomialNB_sentiment_fake%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Ftextmining%2FMultinomialNB_sentiment_fake%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Ftextmining%2FMultinomialNB_sentiment_fake%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+            
+  <nav class="pagination">
+    
+      <a href="/deeplearning/CNNUsingTensorFlow/" class="pagination--pager" title="How to classify ship images with Deep Learning
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+        </div>
+
+        
+    </article>
+
+    
+    
+    <div class="page__related">
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+        <div class="grid__wrapper">
+            
+            
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/deeplearning/CNNUsingTensorFlow/" rel="permalink">How to classify ship images with Deep Learning
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          31 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">CNN - Deep Learning
+
+</p>
+  </article>
+</div>
+
+            
+            
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/update/welcome-to-jekyll/" rel="permalink">Welcome to Jekyll!
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different wa...</p>
+  </article>
+</div>
+
+            
+            
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/jekyll/2021/03/29" rel="permalink">Welcome to Jekyll!
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different wa...</p>
+  </article>
+</div>
+
+            
+        </div>
+    </div>
+    
+    
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Mahesh Badam. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

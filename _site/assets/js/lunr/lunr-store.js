@@ -16,4 +16,10 @@ var store = [{
         "tags": ["TensorFlow","CNN"],
         "url": "/deeplearning/CNNUsingTensorFlow/",
         "teaser": null
+      },{
+        "title": "Multinomial Naive Bayes for Sentiment and fake review detection",
+        "excerpt":"Sentiment Detection from sklearn.metrics import classification_report, accuracy_score, confusion_matrix import numpy as np import pandas as pd from sklearn.naive_bayes import MultinomialNB from sklearn.model_selection import train_test_split from sklearn.feature_extraction.text import CountVectorizer from sklearn.feature_extraction.text import TfidfVectorizer from sklearn.naive_bayes import MultinomialNB from sklearn.model_selection import cross_val_predict train_data = pd.read_csv('deception_data_converted_final.tsv', delimiter='\\t') # Vectorizer options unigram_bool_vectorizer = CountVectorizer(...","categories": ["TextMining"],
+        "tags": ["Python","MultinomialNB","SentimentAnalysis","FakeReviewDetection","CrossValidation"],
+        "url": "/textmining/MultinomialNB_sentiment_fake/",
+        "teaser": null
       }]
