@@ -10,8 +10,6 @@ toc_icon: "clone"
 ---
 
 
-### Multinomial Naive Bayes for Sentiment Analysis and Fake Review Detection
-
 We often see text from the internet automatically classified as positive, negative and in websites like Amazon, they automatically track fake reviews and remove them proactively to prevent bias for their text mining model. Althought they use complex and huge datasets for training process, the goal in this one is to analyse text data and interpret the models, find patterns in determining wrongly predicted text.
 
 The dataset is provided by Prof. Bei Yu at Syracuse University. It is about a fake restaurant review data of true and fake reviews. Some were positive, and some were negative. It is completely fictional. It has columns 'review', 'lie', and 'sentiment' which are straight forward to understand. With this data, the goal is to create a cross validated Multinomial Naive Bayes Model trained on reviews, sentiment for **Sentiment Analysis** and reviews, lie for **Fake Review Detection**
