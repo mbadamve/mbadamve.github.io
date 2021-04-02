@@ -680,8 +680,3 @@ for i in range(len(log_prob)):
 
 In this model too, there is an overlap of true and fake review top classes, and the fake reviews are near real to the true fake review and our model is doing its best in identifying fake reviews inspite of them being fake reviews.
 
-#### Author
-
-  *Mahesh Kumar Badam Venkata <br>
-  Master of Science in Applied Data Science<br>
-  Syracuse University, Syracuse, NY*
