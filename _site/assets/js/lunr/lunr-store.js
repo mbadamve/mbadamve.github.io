@@ -6,7 +6,7 @@ var store = [{
         "teaser": null
       },{
         "title": "Multinomial Naive Bayes for Sentiment Analysis and Fake Review Detection",
-        "excerpt":"We often see text from the internet automatically classified as positive, negative and in websites like Amazon, they automatically track fake reviews and remove them proactively to prevent bias for their text mining model. Althought they use complex and huge datasets for training process, the goal in this one is...","categories": ["TextMining"],
+        "excerpt":"Multinomial Naive Bayes for Sentiment Analysis and Fake Review Detection We often see text from the internet automatically classified as positive, negative and in websites like Amazon, they automatically track fake reviews and remove them proactively to prevent bias for their text mining model. Althought they use complex and huge...","categories": ["TextMining"],
         "tags": ["Python","MultinomialNB","SentimentAnalysis","FakeReviewDetection","CrossValidation"],
         "url": "/textmining/MultinomialNB_sentiment_fake/",
         "teaser": null
