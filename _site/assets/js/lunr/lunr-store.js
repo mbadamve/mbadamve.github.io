@@ -1,7 +1,7 @@
 var store = [{
-        "title": "How to classify ship images with Deep Learning",
-        "excerpt":"The goal of this project is to create a Deep Learning model using Convolutional Neural Networks. The dataset consists of images of 5 types of ships which are labeled {‘Cargo’: 1, ‘Military’: 2, ‘Carrier’: 3, ‘Cruise’: 4, ‘Tankers’: 5}. The Convolutional Neural Network (CNN) is trained with the images of...","categories": ["DeepLearning"],
-        "tags": ["TensorFlow","CNN","Python"],
+        "title": "Deep Learning for ship image classification",
+        "excerpt":"The goal is to create a Deep Learning model using Convolutional Neural Networks that classifies a ship. The Convolutional Neural Network (CNN) is trained with the images of all these types of ships using a 60% of the data and validated simulataneously against 20% of the data and finally test...","categories": ["DeepLearning"],
+        "tags": ["Python","TensorFlow","CNN"],
         "url": "/deeplearning/CNNUsingTensorFlow/",
         "teaser": null
       },{
